@@ -38,6 +38,8 @@ const io = new Server(server, {
    }
 })
 
+const users = {};
+
 io.on("connection", async (socket) => {
    console.log('user :', socket.id);
 
@@ -61,13 +63,26 @@ io.on("connection", async (socket) => {
          io.to(user._id.toString()).emit("unauthorized");
       }
 
-      await User.findByIdAndUpdate(decodedToken._id, { $set: { socketId: socket.id } })
+      // await User.findByIdAndUpdate(decodedToken._id, { $set: { socketId: socket.id } })
 
       // await Socket.create({ socketId: socket.id, userId: decodedToken._id });
-
+      users[decodedToken._id] = socket.id;
       socket.join(decodedToken._id);
 
-      socket.emit("joined-room")
+      socket.emit("joined-room",)
+      socket.on('calluser', ({ to, signalData, from, name }) => {
+         const recipientSocketId = users[to];
+         const callerSocketId = users[from];
+         console.log('recipientSocketId', recipientSocketId, to);
+
+         io.to(recipientSocketId).emit('calluser', { signal: signalData, from: callerSocketId, name })
+      });
+
+      socket.on('answercall', (data) => {
+         console.log(data);
+
+         io.to(data.to).emit('callaccepted', data.signal);
+      });
 
    } catch (error) {
       socket.emit("unauthorized")

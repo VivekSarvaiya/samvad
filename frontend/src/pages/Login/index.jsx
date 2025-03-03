@@ -5,8 +5,6 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { onLogin } from "./services";
 import { ACCESS_TOKEN, USER_DATA, setLocalStorageItem } from "../../utils/localStroageManager";
-import { decryptMessage, encryptMessage } from "../../utils/encryption";
-import nacl from "tweetnacl";
 
 const LoginSchema = Yup.object().shape({
    email: Yup.string().email('Invalid email').required('Required'),
@@ -20,14 +18,6 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login = () => {
-   const keyPair = nacl.box.keyPair();
-   console.log(keyPair);
-
-   const a = encryptMessage("aaaaaaaaaaaaaaaaaaaa", keyPair.secretKey, keyPair.publicKey);
-   console.log(a);
-
-   console.log(decryptMessage(a, keyPair.secretKey, keyPair.publicKey));
-
 
    const location = useLocation();
    const cred = location?.state;
