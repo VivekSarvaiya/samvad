@@ -48,44 +48,34 @@ const ChatFriends = ({ className }) => {
    }, [chatList, search, userId])
 
    return (
-      <div className={`flex flex-col w-full h-full divide-y divide-dark-primary dark:divide-dark-secondary-200 ${className}`}>
-
-         <div className="px-4 py-[9px] dark:py-[10px]">
-            <div className="transition-none p-2 rounded-md border border-light-secondary dark:border-0 dark:bg-dark-secondary flex justify-center items-center gap-2">
-               <SearchOutlined className="leading-[0] text-xl text-dark-primary dark:text-light-primary" />
+      <div className={`flex flex-col h-full bg-white dark:bg-gray-800 ${className}`}>
+         <div className="p-3">
+            <div className="relative">
                <input
                   type="text"
-                  className="h-6 transition-none w-full text-sm sm:text-[1rem] border-none outline-none bg-inherit text-dark-primary dark:text-light-primary placeholder-dark-primary dark:placeholder-light-primary"
-                  placeholder="Search..."
+                  placeholder="Search conversations"
+                  className="w-full pl-8 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white text-sm"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                />
+               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <SearchOutlined className="h-4 w-4 text-gray-400" />
+               </div>
             </div>
          </div>
 
+         <div className="flex-1 overflow-y-auto">
+            {loading && <Loader />}
 
-
-         <div className="flex-1 overflow-auto divide-y divide-light-secondary dark:divide-dark-primary">
-
-            {
-               loading &&
-               <Loader />
-            }
-
-            {
-               (!filteredChat?.length && !loading) &&
-               <div className="w-full h-full grid place-items-center text-light-primary text-sm sm:text-xl">
+            {(!filteredChat?.length && !loading) && (
+               <div className="w-full h-full grid place-items-center text-gray-500 dark:text-gray-400 text-sm sm:text-xl">
                   No Friends
                </div>
-            }
+            )}
 
-            {
-               filteredChat?.map((chat) => {
-                  return (
-                     <Friend key={chat._id} chat={chat} userId={userId} onChatClick={onChatClick} />
-                  )
-               })
-            }
+            {filteredChat?.map((chat) => (
+               <Friend key={chat._id} chat={chat} userId={userId} onChatClick={onChatClick} />
+            ))}
          </div>
       </div>
    )

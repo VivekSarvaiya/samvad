@@ -28,14 +28,14 @@ const Chat = () => {
    }, []);
 
    return (
-      <div className="bg-light-primary dark:bg-dark-primary divide-y divide-dark-primary dark:divide-dark-secondary-200">
+      <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900">
          <Header showDrawer={() => dispatch(openChatFriendDrawer())} />
 
-         <div className="h-[calc(100vh-60px)] flex divide-x divide-dark-primary dark:divide-dark-secondary-200">
-            <div className="w-[0px] md:w-[500px] h-full">
-               <ChatFriends className="hidden md:flex" />
+         <div className="flex flex-1 overflow-hidden">
+            <div className="hidden md:block w-1/6 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
+               <ChatFriends />
             </div>
-            <div className="w-full h-full">
+            <div className="flex-1">
                <ChatMessages />
             </div>
          </div>

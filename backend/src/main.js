@@ -70,19 +70,6 @@ io.on("connection", async (socket) => {
       socket.join(decodedToken._id);
 
       socket.emit("joined-room",)
-      socket.on('calluser', ({ to, signalData, from, name }) => {
-         const recipientSocketId = users[to];
-         const callerSocketId = users[from];
-         console.log('recipientSocketId', recipientSocketId, to);
-
-         io.to(recipientSocketId).emit('calluser', { signal: signalData, from: callerSocketId, name })
-      });
-
-      socket.on('answercall', (data) => {
-         console.log(data);
-
-         io.to(data.to).emit('callaccepted', data.signal);
-      });
 
    } catch (error) {
       socket.emit("unauthorized")

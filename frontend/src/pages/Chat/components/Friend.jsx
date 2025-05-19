@@ -7,35 +7,38 @@ const Friend = ({ chat, userId, onChatClick = () => { } }) => {
 
    return (
       <div
-         className="w-full p-2 grid grid-cols-12 gap-2 bg-light-secondary-200 dark:bg-dark-secondary hover:bg-light-secondary dark:hover:bg-dark-secondary-200 cursor-pointer"
+         className="p-3 flex items-center border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
          onClick={() => onChatClick(chat)}
       >
-         <div className="col-span-2 m-auto">
-            <Avatar src={chatAvatar} />
+         <div className="relative">
+            <Avatar
+               src={chatAvatar}
+               className="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-medium"
+            />
+            {chat?.status === 'online' && (
+               <div className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 border-2 border-white dark:border-gray-700"></div>
+            )}
          </div>
-         <div className="col-span-8 flex flex-col justify-center">
-            <p className="text-dark-primary dark:text-light-primary capitalize">{chatName}</p>
-            {
-               lastMessage &&
-               <p className="text-dark-primary dark:text-light-secondary-300 text-ellipsis overflow-hidden">{lastMessage}</p>
-            }
 
-         </div>
-         <div className="pr-4 col-span-2 flex flex-col justify-center items-center gap-2">
-            {
-               lastMessageTime &&
-               <p className="text-xs text-light-secondary-300 font-semibold whitespace-nowrap">
+         <div className="ml-3 flex-1">
+            <div className="flex justify-between items-center">
+               <span className="font-medium text-gray-900 dark:text-white capitalize">{chatName}</span>
+               {unread > 0 && (
+                  <span className="bg-indigo-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                     {unread}
+                  </span>
+               )}
+            </div>
+            {lastMessage && (
+               <p className="text-sm text-gray-500 dark:text-gray-400 text-ellipsis overflow-hidden">
+                  {lastMessage}
+               </p>
+            )}
+            {lastMessageTime && (
+               <p className="text-xs text-gray-400 mt-1">
                   {lastMessageTime}
                </p>
-            }
-            {
-               !!unread &&
-               <div
-                  className="w-5 h-5 text-xs grid place-items-center rounded-full text-white bg-dark-secondary-300"
-               >
-                  {unread}
-               </div>
-            }
+            )}
          </div>
       </div>
    )

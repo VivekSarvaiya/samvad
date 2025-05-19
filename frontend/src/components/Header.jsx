@@ -66,21 +66,17 @@ const Header = ({ showDrawer }) => {
                className="block md:hidden leading-[0] text-dark-primary dark:text-light-primary text-2xl cursor-pointer"
                onClick={showDrawer}
             />
-            <img
-               className="w-[50px] object-cover"
-               src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg"
-               alt="logo"
-            />
+            <h2 className="text-xl font-semibold dark:text-gray-300"><h2 className="text-indigo-500 inline">सं</h2>वाद</h2>
          </div>
          <div className="flex justify-center items-center gap-4">
-            {/* <SunOutlined
+            <SunOutlined
                className="hidden dark:inline leading-[0] text-dark-primary dark:text-light-primary text-2xl cursor-pointer"
                onClick={toggleDarkMode}
             />
             <MoonOutlined
                className="dark:hidden leading-[0] text-dark-primary dark:text-light-primary text-2xl cursor-pointer"
                onClick={toggleDarkMode}
-            /> */}
+            />
 
             <Request />
 

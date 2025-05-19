@@ -73,7 +73,7 @@ const ChatMessages = () => {
    if (!selectedChat) {
       return (
          <div className="w-full h-full flex flex-col divide-y divide-dark-primary dark:divide-dark-secondary-200">
-            <div className="flex-1 text-light-primary flex justify-center items-center text-sm sm:text-xl">
+            <div className="flex-1 dark:text-light-primary flex justify-center items-center text-sm sm:text-xl">
                Please select a chat
             </div>
          </div>
@@ -81,31 +81,46 @@ const ChatMessages = () => {
    }
 
    return (
-      <div className="w-full h-full flex flex-col divide-y divide-dark-primary dark:divide-dark-secondary-200">
-
+      <div className="w-full h-full flex flex-col bg-gray-50 dark:bg-gray-900">
          <ChatMessageHeader chat={selectedChat} userId={userId} />
 
-         <MessagesWrapper messages={messages} userId={userId} selectedChat={selectedChat} />
+         <div className="flex-1 overflow-y-auto p-4">
+            <div className="space-y-4">
+               <MessagesWrapper messages={messages} userId={userId} selectedChat={selectedChat} />
+               {/* <div ref={messagesEndRef} /> */}
+            </div>
+         </div>
 
-         <div className="h-auto dark:bg-dark-primary p-2 mt-auto flex justify-center items-center gap-2">
-            <AutoResizeableTextarea
-               className="p-2 bg-transparent text-sm sm:text-[1rem] text-dark-primary dark:text-light-primary placeholder-dark-primary dark:placeholder-light-primary rounded-lg"
-               placeholder="Type here..."
-               maxHeight={80}
-               disabled={sendMessageLoading}
-               value={messageText}
-               onChange={(e) => dispatch(setMessageText(e.target.value))}
-               onKeyDown={handleKeyPress}
-            />
-            <button
-               className="min-w-[40px] p-2 rounded-md group"
-               disabled={sendMessageLoading}
-               onClick={sendMessage}
-            >
-               <SendOutlined className="leading-[0] text-dark-primary dark:text-light-primary text-2xl cursor-pointer translate-x-0 group-hover:translate-x-1" />
-            </button>
+         <div className="p-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+            <div className="flex items-end space-x-2">
+               {/* <button className="text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400">
+                  <PaperClipOutlined className="h-6 w-6" />
+               </button> */}
+               <div className="flex-1 relative">
+                  <AutoResizeableTextarea
+                     className="w-full border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white resize-none"
+                     placeholder="Type a message..."
+                     maxHeight={80}
+                     disabled={sendMessageLoading}
+                     value={messageText}
+                     onChange={(e) => dispatch(setMessageText(e.target.value))}
+                     onKeyDown={handleKeyPress}
+                  />
+                  {/* <button className="absolute right-2 bottom-2 text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400">
+                     <SmileOutlined className="h-5 w-5" />
+                  </button> */}
+               </div>
+               <button
+                  onClick={sendMessage}
+                  disabled={sendMessageLoading}
+                  className="rounded-full p-2 hover:text-indigo-700 dark:hover:text-indigo-700 dark:text-white focus:outline-none"
+               >
+                  <SendOutlined className="h-5 w-5" />
+               </button>
+            </div>
          </div>
       </div>
+
    )
 };
 

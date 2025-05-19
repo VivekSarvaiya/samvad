@@ -68,7 +68,7 @@ const MessagesWrapper = ({ messages, userId, selectedChat }) => {
    }, [scrollToLastMessage])
 
    return (
-      <div className="flex-1 overflow-auto py-4 px-2 dark:bg-dark-primary" id="container" ref={containerRef}>
+      <div className="flex-1 overflow-auto py-4 px-2" id="container" ref={containerRef}>
 
          {
             (!messages || !messages?.length) &&

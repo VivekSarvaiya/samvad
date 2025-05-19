@@ -85,67 +85,65 @@ const Message = ({ message, userId }) => {
    }, [message, userId])
 
    return (
-      <div className={`relative flex ${myMessage && "flex-row-reverse"} items-start gap-2.5`}>
-         <Avatar className="!w-[30px]" src={getUserAvatar(sender)} />
-         <div className={`mt-3 flex flex-col gap-2 w-fit max-w-[220px] sm:max-w-[320px] leading-1.5 py-2 px-4 border-gray-200 bg-message-light ${myMessage ? "rounded-s-xl rounded-ee-xl" : "rounded-e-xl rounded-es-xl"} dark:bg-message-dark`}>
-            {/* <div className="flex items-center space-x-2 rtl:space-x-reverse">
-               <span className="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</span>
-               <span className="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
-            </div> */}
+      <div className={`flex my-2 ${myMessage ? 'justify-end' : 'justify-start'}`}>
+         {!myMessage && (
+            <Avatar
+               src={getUserAvatar(sender)}
+               className="h-8 w-8 rounded-full mr-2"
+            />
+         )}
 
-            {
-               !editMessage &&
-               <span className="text-sm font-normal text-gray-900 dark:text-white whitespace-pre-wrap break-all">
-                  {text}
-               </span>
-            }
+         <div className="relative group">
+            <div
+               className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${myMessage
+                  ? 'bg-indigo-600 text-white rounded-br-none'
+                  : 'bg-white text-gray-800 rounded-bl-none border border-gray-200 dark:bg-gray-700 dark:text-white dark:border-gray-600'
+                  }`}
+            >
+               {!editMessage && (
+                  <p className="whitespace-pre-wrap break-words">{text}</p>
+               )}
 
-            {
-               !editMessage &&
-               <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+               {editMessage && (
+                  <AutoResizeableTextarea
+                     className="w-full p-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg"
+                     placeholder="Edit message..."
+                     maxHeight={80}
+                     disabled={loading}
+                     value={editMessageText}
+                     onChange={(e) => setEditMessageText(e.target.value)}
+                     onKeyDown={handleKeyPress}
+                  />
+               )}
+
+               <div className={`text-xs mt-1 flex justify-end ${myMessage ? 'text-indigo-200' : 'text-gray-500'
+                  }`}>
                   {getTime(createdAt)}
-               </span>
-            }
-
-            {
-               editMessage &&
-               <AutoResizeableTextarea
-                  className="w-full min-w-[200px] p-2 bg-transparent text-sm sm:text-[1rem] text-dark-primary dark:text-light-primary placeholder-dark-primary dark:placeholder-light-primary rounded-lg"
-                  placeholder="Type here..."
-                  maxHeight={80}
-                  disabled={loading}
-                  value={editMessageText}
-                  onChange={(e) => setEditMessageText(e.target.value)}
-                  onKeyDown={handleKeyPress}
-               />
-            }
-
-            {
-               editMessage &&
-               <div className="flex justify-end items-center gap-2">
-                  <button
-                     className="py-1 w-full bg-white text-dark-secondary font-semibold rounded-md"
-                     onClick={() => setEditMessage(false)}
-                     disabled={loading}
-                  >
-                     Cancel
-                  </button>
-                  <button
-                     className="py-1 w-full bg-yellow-300 text-dark-secondary font-semibold rounded-md"
-                     onClick={editMessageHandler}
-                     disabled={loading}
-                  >
-                     {
-                        loading ? <Loader /> : "Edit"
-                     }
-                  </button>
                </div>
-            }
 
-            {
-               myMessage &&
+               {editMessage && (
+                  <div className="flex justify-end items-center gap-2 mt-2">
+                     <button
+                        className="py-1 px-3 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-md"
+                        onClick={() => setEditMessage(false)}
+                        disabled={loading}
+                     >
+                        Cancel
+                     </button>
+                     <button
+                        className="py-1 px-3 bg-indigo-600 text-white rounded-md"
+                        onClick={editMessageHandler}
+                        disabled={loading}
+                     >
+                        {loading ? <Loader /> : "Save"}
+                     </button>
+                  </div>
+               )}
+            </div>
+
+            {myMessage && !editMessage && (
                <Dropdown
-                  className="absolute top-5 right-10"
+                  className="opacity-0 group-hover:opacity-100 absolute top-2 right-full mr-2"
                   menu={{
                      items: [
                         {
@@ -161,19 +159,27 @@ const Message = ({ message, userId }) => {
                   trigger={['click']}
                   placement="bottomRight"
                >
-                  <MoreOutlined className="text-white" />
+                  <MoreOutlined className="text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400 cursor-pointer" />
                </Dropdown>
-            }
+            )}
          </div>
+
+         {myMessage && (
+            <Avatar
+               src={getUserAvatar(sender)}
+               className="h-8 w-8 rounded-full ml-2"
+            />
+         )}
 
          <CustomModal open={modalVisibility}>
             <ConfirmationModal
-               text="Are you sure you want to delete this message ?"
+               text="Are you sure you want to delete this message?"
                onCancel={onCloseModal}
                onOk={deleteMessageHandler}
             />
          </CustomModal>
       </div>
+
    )
 };
 

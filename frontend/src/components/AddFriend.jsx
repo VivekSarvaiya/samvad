@@ -72,7 +72,7 @@ const AddFriend = ({ onCloseModal }) => {
 
    return (
       <div
-         className="relative py-4 px-2 bg-light-primary dark:bg-dark-secondary min-w-[220px] sm:min-w-[400px] space-y-2 rounded-lg"
+         className="relative py-4 px-2 bg-gray-50 dark:bg-gray-900 min-w-[220px] sm:min-w-[400px] space-y-2 rounded-lg"
       >
          <div
             className="absolute top-4 right-4 cursor-pointer"
@@ -89,13 +89,21 @@ const AddFriend = ({ onCloseModal }) => {
             Add Friend
          </h2>
 
-         <Input
-            placeholder="username"
-            disabled={loading}
-            prefix={<SearchOutlined />}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-         />
+
+         <div className="p-3">
+            <div className="relative">
+               <input
+                  placeholder="username"
+                  disabled={loading}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="w-full pl-8 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white text-sm"
+               />
+               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <SearchOutlined className="h-4 w-4 text-gray-400" />
+               </div>
+            </div>
+         </div>
 
          <div
             className="px-4 text-light-primary w-full max-h-[400px] overflow-auto"
